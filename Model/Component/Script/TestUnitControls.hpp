@@ -15,6 +15,10 @@ namespace components {
     using namespace entities;
     using namespace poolables;
     class TestUnitControls : public Component {
+        protected:
+            TestUnit* pUnitOwner;
+            TestUnitInput* pUnitInput;
+
         private:
             float fSpeed;
         

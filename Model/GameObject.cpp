@@ -93,34 +93,21 @@ void GameObject::detachChild(GameObject* pChild) {
         this->vecChildren.erase(this->vecChildren.begin() + nIndex);
 }
 
-// void GameObject::attachPoolable(PoolableObject* pPoolObj) {
-//     this->vecChildrenPools.push_back(pPoolObj);
-//     pPoolObj->attachOwner(this);
-// }
-
-// void GameObject::detachPoolable(PoolableObject* pPoolObj) {
-//     int nIndex = -1;
-//     for(int i = 0; i < this->vecChildrenPools.size(); i++) {
-//         if(this->vecChildrenPools[i] == pPoolObj) {
-//             nIndex = i;
-//             break;
-//         }
-//     }
-
-//     if(nIndex != -1) {
-//         this->vecChildrenPools[nIndex]->detachOwner();
-//         this->vecChildrenPools.erase(this->vecChildrenPools.begin() + nIndex);
-//     }
-
-// }
-
 Component* GameObject::findComponentByName(std::string strName) {
-    for(int i = -1; i < this->vecComponents.size(); i++) {
-         if(this->vecComponents[i]->getName() == strName) { 
-             return this->vecComponents[i];
-         }
-     }
-    //return NULL;
+    // for(int i = -1; i < this->vecComponents.size(); i++) {
+    //      if(this->vecComponents[i]->getName() == strName) { 
+    //          return this->vecComponents[i];
+    //      }
+    //  }
+    // //return NULL;
+
+    for(Component* pComponent : this->vecComponents) {
+        if(pComponent->getName() == strName)
+            return pComponent;
+    }
+    
+    std::cout << "[ERROR] : Component [" << strName << "] NOT found." << std::endl;
+    return NULL;
 }
 
 std::vector<Component*> GameObject::getComponents(ComponentType EType) {
@@ -132,25 +119,6 @@ std::vector<Component*> GameObject::getComponents(ComponentType EType) {
     }
     return vecFound;
 }
-
-// PoolableObject* GameObject::findPoolablesByName(std::string strName) {
-//     for(int i = -1; i < this->vecChildrenPools.size(); i++) {
-//          if(this->vecChildrenPools[i]->getName() == strName) { 
-//              return this->vecChildrenPools[i];
-//          }
-//      }
-//     //return NULL;
-// }
-
-// std::vector<PoolableObject*> GameObject::getPoolables(PoolTag EType) {
-//     std::vector<PoolableObject*> vecFound = {};
-//     for(PoolableObject* pPoolables : this->vecChildrenPools) {
-//         if(pPoolables->getTag() == EType) {
-//             vecFound.push_back(pPoolables);
-//         }
-//     }
-//     return vecFound;
-// }
 
 void GameObject::centerOrigin() {
     if(this->pTexture != NULL) {
@@ -204,6 +172,7 @@ void GameObject::setEnabled(bool bEnabled) {
 void GameObject::setOrientationRight(bool bRight) {
     this->bOrientRight = bRight;
 }
+
 void GameObject::setOrientationLeft(bool bLeft) {
     this->bOrientLeft = bLeft;
 }
@@ -211,6 +180,7 @@ void GameObject::setOrientationLeft(bool bLeft) {
 bool GameObject::getOrientationRight() {
     return this->bOrientRight;
 }
+
 bool GameObject::getOrientationLeft() {
     return this->bOrientLeft;
 }
@@ -221,4 +191,16 @@ GameObject* GameObject::getParent() {
 
 void GameObject::setParent(GameObject* pParent) {
     this->pParent = pParent;
+}
+
+sf::Vector2f GameObject::getPosition() {
+    return this->pSprite->getPosition();
+}
+
+void GameObject::setPosition(sf::Vector2f vecPosition) {
+    this->pSprite->setPosition(vecPosition);
+}
+
+void GameObject::setScale(sf::Vector2f vecScale) {
+    this->pSprite->setScale(vecScale);
 }

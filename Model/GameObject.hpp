@@ -75,5 +75,9 @@ namespace models {
 
             GameObject* getParent();
             void setParent(GameObject* pParent);
+
+            virtual sf::Vector2f getPosition();
+            virtual void setPosition(sf::Vector2f vecPosition);
+            virtual void setScale(sf::Vector2f vecScale);
     };
 }

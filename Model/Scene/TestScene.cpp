@@ -11,6 +11,7 @@ void TestScene::onLoadResources() {
 void TestScene::onLoadObjects() {
     this->createBackground();
     this->spawnUnit();
+    this->spawnBot();
     this->createObjectPools();
 }
 
@@ -30,7 +31,20 @@ void TestScene::spawnUnit() {
     pTestUnit->setFrame(0);
     pTestUnit->setOrientationRight(true);
     pTestUnit->setOrientationLeft(false);
+    pTestUnit->setScale({2.0f,2.0f});
+    pTestUnit->setPosition({90.f,210.f});
     GameObjectManager::getInstance()->addObject(pTestUnit);
+}
+
+void TestScene::spawnBot() {
+    AnimatedTexture* pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::TEST_UNIT));
+    TestUnit* pTestBot = new TestUnit("TestBot", pTexture);
+    pTestBot->setFrame(0);
+    pTestBot->setOrientationRight(false);
+    pTestBot->setOrientationLeft(true);
+    pTestBot->setScale({-2.0f,2.0f});
+    pTestBot->setPosition({690.f,210.f});
+    GameObjectManager::getInstance()->addObject(pTestBot);
 }
 
 void TestScene::createObjectPools() {
@@ -40,16 +54,16 @@ void TestScene::createObjectPools() {
     TestBullet_R* pTestBulletRef_R = new TestBullet_R("Test Bullet R",pTexture,pTestUnit);
     GameObjectPool* pTestBulletPool_R = new GameObjectPool(PoolTag::TEST_BULLET_R, 3, pTestBulletRef_R);
     pTestBulletPool_R->initalize();
+    ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_R);
 
     TestBullet_L* pTestBulletRef_L = new TestBullet_L("Test Bullet L",pTexture,pTestUnit);
     GameObjectPool* pTestBulletPool_L = new GameObjectPool(PoolTag::TEST_BULLET_L, 3, pTestBulletRef_L);
     pTestBulletPool_L->initalize();
-
-    ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_R);
-    GameObjectPool* pRetrievedPool_R = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_R);
-    pRetrievedPool_R->requestPoolable();
-
     ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_L);
-    GameObjectPool* pRetrievedPool_L = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_L);
-    pRetrievedPool_L->requestPoolable();
+    
+    // GameObjectPool* pRetrievedPool_R = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_R);
+    // pRetrievedPool_R->requestPoolable();
+
+    // GameObjectPool* pRetrievedPool_L = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_L);
+    // pRetrievedPool_L->requestPoolable();
 }

@@ -6,8 +6,8 @@ TestUnit::TestUnit(std::string strName, AnimatedTexture* pTexture) : GameObject(
 
 void TestUnit::initialize() {
     this->centerOrigin();;
-    this->pSprite->setPosition(90.f,210.f);
-    this->pSprite->setScale(2.0f,2.0f);
+    //this->pSprite->setPosition(90.f,210.f);
+    //this->pSprite->setScale(2.0f,2.0f);
     
     TestUnitInput* pTestUnitInput = new TestUnitInput(this->strName + " Input");
     this->attachComponent(pTestUnitInput);

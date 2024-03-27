@@ -28,6 +28,7 @@ namespace scenes {
         private:
             void createBackground();
             void spawnUnit();
+            void spawnBot();
             void createObjectPools();
     };
 }
