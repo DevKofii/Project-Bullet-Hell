@@ -19,6 +19,7 @@ void TestUnitControls::perform() {
     else {
         //Player
         if(this->pUnitOwner->getName() == "TestUnit") {
+
             float fOffset  = this->fSpeed * this->tDeltaTime.asSeconds();
 
             //Movement
@@ -58,8 +59,8 @@ void TestUnitControls::perform() {
 
         //BotTest
         if(this->pUnitOwner->getName() == "TestBot") {
-            float fOffset  = this->fSpeed * this->tDeltaTime.asSeconds();
-            pUnitOwner->getSprite()->move(-fOffset,0.f);
+            // float fOffset  = this->fSpeed * this->tDeltaTime.asSeconds();
+            // pUnitOwner->getSprite()->move(-fOffset,0.f);
         }
     }
 }

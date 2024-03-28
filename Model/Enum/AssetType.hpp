@@ -10,5 +10,6 @@ enum class AssetType : int {
     TITLE_SCREEN,
     TEST_BACKGROUND,
     TEST_UNIT,
+    TEST_BOT,
     TEST_BULLET
 };

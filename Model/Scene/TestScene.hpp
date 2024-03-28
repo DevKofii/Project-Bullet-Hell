@@ -4,12 +4,14 @@
 #include "../AnimatedTexture.hpp"
 #include "../Enum/SceneTag.hpp"
 #include "../Entity/TestUnit.hpp"
+#include "../Entity/TestEnemy.hpp"
 #include "../Entity/TestBackground.hpp"
 #include "../../Controller/Manager/TextureManager.hpp"
 
 #include "../Pooling/Entity/TestBullet_R.hpp"
 #include "../Pooling/Entity/TestBullet_L.hpp"
 #include "../../Controller/Manager/ObjectPoolManager.hpp"
+#include "../../Controller/Manager/ObjectCollisionManager.hpp"
 #include "../../Controller/Pooling/GameObjectPool.hpp"
 
 namespace scenes {
@@ -30,5 +32,7 @@ namespace scenes {
             void spawnUnit();
             void spawnBot();
             void createObjectPools();
+
+            void checkCollision();
     };
 }

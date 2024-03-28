@@ -8,6 +8,7 @@
 #include "Controller/Manager/TextureManager.cpp"
 #include "Controller/Manager/GameObjectManager.cpp"
 #include "Controller/Manager/ObjectPoolManager.cpp"
+#include "Controller/Manager/ObjectCollisionManager.cpp"
 #include "Controller/Manager/SceneManager.cpp"
 
 #include "Controller/Pooling/GameObjectPool.cpp"
@@ -19,6 +20,7 @@
 #include "Model/Entity/Ship.cpp"
 #include "Model/Entity/TestBackground.cpp"
 #include "Model/Entity/TestUnit.cpp"
+#include "Model/Entity/TestEnemy.cpp"
 
 #include "Model/Pooling/PoolableObject.cpp"
 #include "Model/Pooling/Entity/PlayerBullet.cpp"

@@ -10,9 +10,10 @@ void TestScene::onLoadResources() {
 
 void TestScene::onLoadObjects() {
     this->createBackground();
-    this->spawnUnit();
     this->spawnBot();
+    this->spawnUnit();
     this->createObjectPools();
+    this->checkCollision();
 }
 
 void TestScene::onUnloadResources() {
@@ -38,7 +39,7 @@ void TestScene::spawnUnit() {
 
 void TestScene::spawnBot() {
     AnimatedTexture* pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::TEST_UNIT));
-    TestUnit* pTestBot = new TestUnit("TestBot", pTexture);
+    TestEnemy* pTestBot = new TestEnemy("TestBot", pTexture);
     pTestBot->setFrame(0);
     pTestBot->setOrientationRight(false);
     pTestBot->setOrientationLeft(true);
@@ -67,3 +68,5 @@ void TestScene::createObjectPools() {
     // GameObjectPool* pRetrievedPool_L = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_L);
     // pRetrievedPool_L->requestPoolable();
 }
+
+

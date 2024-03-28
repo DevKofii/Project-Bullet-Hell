@@ -25,6 +25,7 @@ void Game::run() {
         }
 
         SceneManager::getInstance()->checkLoadScene();
+        //ObjectCollisionManager::getInstance()->checkCollision();
         this->render();
     }
 }

@@ -21,16 +21,7 @@ namespace managers {
             void addObject(GameObject* pGameObject);
             void deleteAllObjects();
             GameObject* findObjectByName(std::string strName);
-
-        /* * * * * * * * * * * * * * * * * * * * * 
-         *       SINGLETON-RELATED CONTENT       * 
-         * * * * * * * * * * * * * * * * * * * * */
-
-        /* [TODO][1] :
-           Please make this a Singleton class.
-           Place the Singleton-related content
-           underneath this comment. */
-
+            
         private:
             static GameObjectManager* P_SHARED_INSTANCE;
             GameObjectManager();

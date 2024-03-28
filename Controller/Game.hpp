@@ -4,6 +4,7 @@
 #include "SFML/Graphics.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Manager/GameObjectManager.hpp"
+#include "Manager/ObjectCollisionManager.hpp"
 #include "Manager/SceneManager.hpp"
 #include "../Model/Enum/AssetType.hpp"
 #include "../Model/Scene/MainMenuScene.hpp"

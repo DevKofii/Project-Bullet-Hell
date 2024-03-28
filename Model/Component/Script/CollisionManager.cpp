@@ -7,8 +7,9 @@ CollisionManager::CollisionManager(std::string strName) : Component  (strName, C
 void CollisionManager::perform() {
     TestUnit* pUnitOwner = (TestUnit*)this->pOwner;
     TestUnitInput* pUnitInput = (TestUnitInput*)this->getOwner()->getComponents(ComponentType::INPUT)[0];
+    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
 
-    if(pUnitInput == NULL && pUnitOwner == NULL) {
+    if(pUnitInput == NULL && pUnitOwner == NULL && pEnemy == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
     }
     else {
@@ -36,25 +37,3 @@ void CollisionManager::perform() {
 
     }
 }
-
-/*
-if (this->sprite.getGlobalBounds().left + this->sprite.getGlobalBounds().width >= target->getSize().x)
-{
-    this->sprite.setPosition(target->getSize().x - this->sprite.getGlobalBounds().width,this->sprite.getGlobalBounds().top);
-    setcollisionState_R(true);
-}
-
-//Top
-if (this->sprite.getGlobalBounds().top <= 0.f)
-{
-    setcollisionState_T(true);
-    this->sprite.setPosition(this->sprite.getGlobalBounds().left, 0.f);
-}
-
-//Bottom
-if (this->sprite.getGlobalBounds().top + this->sprite.getGlobalBounds().height >= target->getSize().y)
-{
-    this->sprite.setPosition(this->sprite.getGlobalBounds().left, target->getSize().y - this->sprite.getGlobalBounds().height);
-    setcollisionState_D(true);
-}
-*/
