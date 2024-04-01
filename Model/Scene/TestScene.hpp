@@ -32,7 +32,5 @@ namespace scenes {
             void spawnUnit();
             void spawnBot();
             void createObjectPools();
-
-            void checkCollision();
     };
 }

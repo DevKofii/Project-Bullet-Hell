@@ -51,6 +51,11 @@
 #include "Model/Component/Script/FrameAnimation.cpp"
 #include "Model/Component/Script/CollisionManager.cpp"
 
+#include "Model/Component/Input/Bot/BotInput.cpp"
+
+#include "Model/Component/Script/Bot/BotManager.cpp"
+#include "Model/Component/Script/Bot/FrameAnimationBot.cpp"
+
 #include "Model/Component/Renderer/Renderer.cpp"
 
 using namespace controllers;

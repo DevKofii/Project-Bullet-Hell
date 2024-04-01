@@ -13,7 +13,6 @@ void TestScene::onLoadObjects() {
     this->spawnBot();
     this->spawnUnit();
     this->createObjectPools();
-    this->checkCollision();
 }
 
 void TestScene::onUnloadResources() {
