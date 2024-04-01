@@ -23,30 +23,91 @@ void BotManager::perform() {
 
 void BotManager::checkState() {
     BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
-    if(pInput->getLeft()) {
-        std::cout << "Bot State: Going Left" << std::endl;
-        this->setTag(BotTag::WALK_LEFT);
+
+    switch(ETag) {
+        case BotTag::IDLE:
+            //std::cout << "Bot State: IDLE" << std::endl;
+            break;
+
+        case BotTag::WALK_LEFT:
+            //std::cout << "Bot State: Going Left" << std::endl;
+            break;
+
+        case BotTag::WALK_RIGHT:
+            //std::cout << "Bot State: Going Right" << std::endl;
+            break;
+        
+        case BotTag::WALK_UP:
+            //std::cout << "Bot State: Going Up" << std::endl;
+            break;
+        
+        case BotTag::WALK_DOWN:
+            //std::cout << "Bot State: Going Down" << std::endl;
+            break;
+
+        default:
+            break;
+
     }
-    else if(pInput->getRight()) {
-        std::cout << "Bot State: Going Right" << std::endl;
-        this->setTag(BotTag::WALK_RIGHT);
-    }
-    else {
-        std::cout << "Bot State: IDLE" << std::endl;
-        this->setTag(BotTag::IDLE);
+    // if(pInput->getLeft()) {
+    //     std::cout << "Bot State: Going Left" << std::endl;
+    //     //this->setTag(BotTag::WALK_LEFT);
+    // }
+    // else if(pInput->getRight()) {
+    //     std::cout << "Bot State: Going Right" << std::endl;
+    //     //this->setTag(BotTag::WALK_RIGHT);
+    // }
+    // else if(!pInput->getLeft() && !pInput->getRight() && !pInput->getUp() && !pInput->getDown()){
+    //     std::cout << "Bot State: IDLE" << std::endl;
+    //     //this->setTag(BotTag::IDLE);
+    // }
+}
+
+void BotManager::selectState() {
+    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
+    BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
+
+    srand(time(NULL));
+    int select = (rand() % (5 - 1 + 1)) + 1;
+
+    switch(select) {
+        case 1: // IDLE
+            //Just set tag to idle. It should redirect to this func again
+            this->setTag(BotTag::IDLE);
+            break;
+        case 2: // WALK_LEFT
+            this->setTag(BotTag::WALK_LEFT);
+            break;
+        case 3: // WALK_RIGHT
+            this->setTag(BotTag::WALK_RIGHT);
+            break;
+        case 4: // WALK_UP
+            this->setTag(BotTag::WALK_UP);
+            break;
+        case 5: // WALK_DOWN
+            this->setTag(BotTag::WALK_DOWN);
+            break;
+        default: // CATCH ERROR?
+            break;
     }
 }
 
 void BotManager::performState() {
     TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
     BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
+    float fOffset = this->fSpeed * this->tDeltaTime.asSeconds();
 
-    float fOffset  = this->fSpeed * this->tDeltaTime.asSeconds();
+    /*
+    Checklist:
+    - Limit move distance to a certain range;
+    - (i.e. Condition Based: if(randomized_int > )
+    */
+
+    this->selectState();
 
     switch(ETag) {
         case BotTag::IDLE:
             pInput->resetAll();
-            pInput->setLeft(true);
             break;
 
         case BotTag::WALK_LEFT:
@@ -83,14 +144,12 @@ void BotManager::checkCollision() {
     if(pEnemy->getSprite()->getGlobalBounds().left <= 0.f) {
         pEnemy->getSprite()->move(fOffset,0.f);
         pInput->resetAll();
-        pInput->setRight(true);
     }
 
     //Right Boundary
     if(pEnemy->getSprite()->getGlobalBounds().left + pEnemy->getSprite()->getGlobalBounds().width >= SCREEN_WIDTH) {
         pEnemy->getSprite()->move(-fOffset,0.f);
         pInput->resetAll();
-        pInput->setLeft(true);
     }
 
     //Top Boundary
@@ -108,4 +167,11 @@ void BotManager::checkCollision() {
 
 void BotManager::setTag(BotTag ETag) {
     this->ETag = ETag; 
+}
+
+void BotManager::delay(int ms) {
+    clock_t timeDuration = ms + clock();
+    while(timeDuration > clock()) {
+        //std::cout << "DELAY" << std::endl;
+    }
 }

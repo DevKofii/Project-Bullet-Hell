@@ -6,5 +6,6 @@ enum class BotTag : int {
     WALK_LEFT,
     WALK_RIGHT,
     WALK_UP,
-    WALK_DOWN
+    WALK_DOWN,
+    ATTACK
 };
