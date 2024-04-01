@@ -24,9 +24,13 @@ namespace components {
     using namespace std::chrono_literals;
     using std::chrono::system_clock;
     class BotManager : public Component {
-        private:
+        protected:
             float fSpeed;
             BotTag ETag;
+            sf::Clock delayTimer;
+            sf::Int32 delayTimerMax;
+
+            int select;
         
         public:
             BotManager(std::string strName);
@@ -39,9 +43,11 @@ namespace components {
             void performState();
             void checkCollision();
 
-            void delay(int ms);
+            void delay();
 
         public:
             void setTag(BotTag ETag);
+
+            const bool getDelayTimer();
     };
 }

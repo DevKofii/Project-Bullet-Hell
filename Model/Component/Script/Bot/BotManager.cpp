@@ -5,6 +5,10 @@ using namespace components;
 BotManager::BotManager(std::string strName) : Component  (strName, ComponentType::SCRIPT) {
     this->ETag = BotTag::IDLE;
     this->fSpeed = 60.0f;
+    this->delayTimer.restart();
+    this->delayTimerMax = 1;
+
+    this->select = 0;
 }
 
 void BotManager::perform() {
@@ -26,41 +30,29 @@ void BotManager::checkState() {
 
     switch(ETag) {
         case BotTag::IDLE:
-            //std::cout << "Bot State: IDLE" << std::endl;
+            std::cout << "Bot State: IDLE" << std::endl;
             break;
 
         case BotTag::WALK_LEFT:
-            //std::cout << "Bot State: Going Left" << std::endl;
+            std::cout << "Bot State: Going Left" << std::endl;
             break;
 
         case BotTag::WALK_RIGHT:
-            //std::cout << "Bot State: Going Right" << std::endl;
+            std::cout << "Bot State: Going Right" << std::endl;
             break;
         
         case BotTag::WALK_UP:
-            //std::cout << "Bot State: Going Up" << std::endl;
+            std::cout << "Bot State: Going Up" << std::endl;
             break;
         
         case BotTag::WALK_DOWN:
-            //std::cout << "Bot State: Going Down" << std::endl;
+            std::cout << "Bot State: Going Down" << std::endl;
             break;
 
         default:
             break;
 
     }
-    // if(pInput->getLeft()) {
-    //     std::cout << "Bot State: Going Left" << std::endl;
-    //     //this->setTag(BotTag::WALK_LEFT);
-    // }
-    // else if(pInput->getRight()) {
-    //     std::cout << "Bot State: Going Right" << std::endl;
-    //     //this->setTag(BotTag::WALK_RIGHT);
-    // }
-    // else if(!pInput->getLeft() && !pInput->getRight() && !pInput->getUp() && !pInput->getDown()){
-    //     std::cout << "Bot State: IDLE" << std::endl;
-    //     //this->setTag(BotTag::IDLE);
-    // }
 }
 
 void BotManager::selectState() {
@@ -68,9 +60,11 @@ void BotManager::selectState() {
     BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
 
     srand(time(NULL));
-    int select = (rand() % (5 - 1 + 1)) + 1;
+    int temp_select = (rand() % (3 - 1 + 1)) + 1;
+    if(this->select == temp_select) temp_select = (rand() % (3 - 1 + 1)) + 1;
+    this->select = temp_select;
 
-    switch(select) {
+    switch(this->select) {
         case 1: // IDLE
             //Just set tag to idle. It should redirect to this func again
             this->setTag(BotTag::IDLE);
@@ -103,29 +97,57 @@ void BotManager::performState() {
     - (i.e. Condition Based: if(randomized_int > )
     */
 
-    this->selectState();
+    //this->getDelayTimer();
+    //std::cout << this->delayTimer.getElapsedTime().asMilliseconds() << std::endl;
+    //this->selectState();
 
     switch(ETag) {
         case BotTag::IDLE:
-            pInput->resetAll();
+            if(this->getDelayTimer()) {
+                this->selectState();
+            }
+            else {
+                pInput->resetAll();
+                pEnemy->getSprite()->move(0.f,0.f);
+            }
             break;
 
         case BotTag::WALK_LEFT:
-            pEnemy->getSprite()->setScale(-2.0f,2.0f);
-            pEnemy->getSprite()->move(-fOffset,0.f);
+            if(this->getDelayTimer()) {
+                this->selectState();
+            }
+            else {
+                pEnemy->getSprite()->setScale(-2.0f,2.0f);
+                pEnemy->getSprite()->move(-fOffset,0.f);
+            }
             break;
 
         case BotTag::WALK_RIGHT:
-            pEnemy->getSprite()->setScale(2.0f,2.0f);
-            pEnemy->getSprite()->move(fOffset,0.f);
+            if(this->getDelayTimer()) {
+                this->selectState();
+            }
+            else {
+                pEnemy->getSprite()->setScale(2.0f,2.0f);
+                pEnemy->getSprite()->move(fOffset,0.f);
+            }
             break;
         
         case BotTag::WALK_UP:
-            pEnemy->getSprite()->move(0.f, -fOffset);
+            if(this->getDelayTimer()) {
+                this->selectState();
+            }
+            else {
+                pEnemy->getSprite()->move(0.f, -fOffset);
+            }
             break;
         
         case BotTag::WALK_DOWN:
-            pEnemy->getSprite()->move(0.f, fOffset);
+            if(this->getDelayTimer()) {
+                this->selectState();
+            }
+            else {
+                pEnemy->getSprite()->move(0.f, fOffset);
+            }
             break;
 
         default:
@@ -142,26 +164,62 @@ void BotManager::checkCollision() {
 
     //Left Boundary
     if(pEnemy->getSprite()->getGlobalBounds().left <= 0.f) {
-        pEnemy->getSprite()->move(fOffset,0.f);
-        pInput->resetAll();
+        if(this->getDelayTimer()) {
+            pInput->resetAll();
+            this->selectState();
+        }
+        else {
+            pEnemy->getSprite()->move(fOffset,0.f);
+            this->setTag(BotTag::WALK_RIGHT);
+        }
+        
+        //pEnemy->getSprite()->move(fOffset,0.f);
+        //pInput->resetAll();
     }
 
     //Right Boundary
     if(pEnemy->getSprite()->getGlobalBounds().left + pEnemy->getSprite()->getGlobalBounds().width >= SCREEN_WIDTH) {
-        pEnemy->getSprite()->move(-fOffset,0.f);
-        pInput->resetAll();
+        if(this->getDelayTimer()) {
+            pInput->resetAll();
+            this->selectState();
+        }
+        else {
+            pEnemy->getSprite()->move(-fOffset,0.f);
+            this->setTag(BotTag::WALK_LEFT);
+        }
+
+        //pEnemy->getSprite()->move(-fOffset,0.f);
+        //pInput->resetAll();
     }
 
     //Top Boundary
     if(pEnemy->getSprite()->getGlobalBounds().top <= 0.f) {
-        pEnemy->getSprite()->move(0.f,fOffset);
-        pInput->resetAll();
+        if(this->getDelayTimer()) {
+            pInput->resetAll();
+            this->selectState();
+        }
+        else {
+            pEnemy->getSprite()->move(0.f,fOffset);
+            this->setTag(BotTag::WALK_DOWN);
+        }
+
+        //pEnemy->getSprite()->move(0.f,fOffset);
+        //pInput->resetAll();
     }
 
     //Bottom Boundary
     if(pEnemy->getSprite()->getGlobalBounds().top + pEnemy->getSprite()->getGlobalBounds().height >= SCREEN_HEIGHT) {
-        pEnemy->getSprite()->move(0.f,-fOffset);
-        pInput->resetAll();
+        if(this->getDelayTimer()) {
+            pInput->resetAll();
+            this->selectState();
+        }
+        else {
+            pEnemy->getSprite()->move(0.f,-fOffset);
+            this->setTag(BotTag::WALK_UP);
+        }
+        
+        //pEnemy->getSprite()->move(0.f,-fOffset);
+        //pInput->resetAll();
     }
 }
 
@@ -169,9 +227,12 @@ void BotManager::setTag(BotTag ETag) {
     this->ETag = ETag; 
 }
 
-void BotManager::delay(int ms) {
-    clock_t timeDuration = ms + clock();
-    while(timeDuration > clock()) {
-        //std::cout << "DELAY" << std::endl;
+const bool BotManager::getDelayTimer() {
+    std::cout << this->delayTimer.getElapsedTime().asSeconds() << std::endl;
+    if(this->delayTimer.getElapsedTime().asSeconds() >= this->delayTimerMax)
+    {
+        this->delayTimer.restart();
+        return true;
     }
+    return false;
 }
