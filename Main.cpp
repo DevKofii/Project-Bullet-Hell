@@ -1,10 +1,14 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
+#include "Config/Settings.hpp"
+
 #include "Controller/Game.cpp"
+
 #include "Controller/Manager/TextureManager.cpp"
 #include "Controller/Manager/GameObjectManager.cpp"
 #include "Controller/Manager/ObjectPoolManager.cpp"
