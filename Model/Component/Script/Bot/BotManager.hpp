@@ -5,12 +5,14 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <cmath>
 #include "SFML/Graphics.hpp"
 #include "../../Component.hpp"
 #include "../../../Enum/ComponentType.hpp"
 #include "../../../Enum/BotTag.hpp"
 #include "../../../GameObject.hpp"
 #include "../../../Entity/TestEnemy.hpp"
+#include "../../../Entity/TestUnit.hpp"
 #include "../../Input/Bot/BotInput.hpp"
 
 #include "../../../../Controller/Manager/GameObjectManager.hpp"
@@ -32,25 +34,26 @@ namespace components {
             BotTag ETag;
             sf::Clock delayTimer;
             sf::Int32 delayTimerMax;
-
             int select;
-        
         public:
             BotManager(std::string strName);
 
         public:
             void perform();
 
+            void conditions();
             void checkState();
-            void selectState();
+            void selectState();            
             void performState();
             void checkCollision();
+
+            void test1();
 
             void delay();
 
         public:
             void setTag(BotTag ETag);
-
+            sf::Vector2f normalize(sf::Vector2f vec);
             const bool getDelayTimer();
     };
 }
