@@ -42,9 +42,15 @@ void TextureManager::loadTest() {
         this->mapTexture[AssetType::TEST_UNIT].push_back(pTexture);
     }
 
+    //Load Bullet
     pTexture = new sf::Texture();
     pTexture->loadFromFile("View/Image/parts/bullet/bullet.png");
     this->mapTexture[AssetType::TEST_BULLET].push_back(pTexture);
+
+    //Load BulletCollider
+    pTexture = new sf::Texture();
+    pTexture->loadFromFile("View/Image/parts/collision/BulletTest.png");
+    this->mapTexture[AssetType::BULLET_COLLIDER].push_back(pTexture);
 }
 
 void TextureManager::unloadAll() {

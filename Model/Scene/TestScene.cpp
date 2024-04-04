@@ -60,6 +60,14 @@ void TestScene::createObjectPools() {
     GameObjectPool* pTestBulletPool_L = new GameObjectPool(PoolTag::TEST_BULLET_L, 3, pTestBulletRef_L);
     pTestBulletPool_L->initalize();
     ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_L);
+
+    pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::BULLET_COLLIDER));
+    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
+
+    BulletCollision* pBulletCollider = new BulletCollision("TestBulletCollider",pTexture,pEnemy);
+    GameObjectPool* pPool = new GameObjectPool(PoolTag::BULLET_COLLIDER, 1, pBulletCollider);
+    pPool->initalize();
+    ObjectPoolManager::getInstance()->registerObjectPool(pPool);
     
     // GameObjectPool* pRetrievedPool_R = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_R);
     // pRetrievedPool_R->requestPoolable();

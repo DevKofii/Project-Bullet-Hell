@@ -27,6 +27,7 @@ namespace poolables {
             PoolableObject* requestPoolable();
             std::vector<PoolableObject*> requestPoolableBatch(int nRequestSize);
             void releasePoolable(PoolableObject* pPoolableObject);
+            PoolableObject* getPoolable();
 
         private:
             bool hasAvailable(int nRequestSize);

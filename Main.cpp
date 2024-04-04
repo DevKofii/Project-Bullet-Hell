@@ -26,6 +26,7 @@
 #include "Model/Pooling/Entity/PlayerBullet.cpp"
 #include "Model/Pooling/Entity/TestBullet_R.cpp"
 #include "Model/Pooling/Entity/TestBullet_L.cpp"
+#include "Model/Pooling/Entity/BulletCollision.cpp"
 
 #include "Model/Scene.cpp"
 #include "Model/Scene/MainMenuScene.cpp"

@@ -15,11 +15,14 @@
 
 #include "../../../../Controller/Manager/GameObjectManager.hpp"
 
+#include "../../../Pooling/Entity/BulletCollision.hpp"
+
 
 namespace components {
     using namespace managers;
     using namespace models;
     using namespace entities;
+    using namespace poolables;
     using namespace std::this_thread;    
     using namespace std::chrono_literals;
     using std::chrono::system_clock;

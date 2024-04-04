@@ -15,6 +15,12 @@ void BotManager::perform() {
     TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
     BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
 
+    //ObjectPoolManager::getInstance()->getPool(PoolTag::BULLET_COLLIDER)->requestPoolable();
+
+    BulletCollision* pCollide = (BulletCollision*)ObjectPoolManager::getInstance()->getPool(PoolTag::BULLET_COLLIDER)->getPoolable();
+    pCollide->setPosition(pEnemy->getPosition());
+
+
     if(pEnemy == NULL && pInput == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
     }
@@ -60,7 +66,7 @@ void BotManager::selectState() {
     BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
 
     srand(time(NULL));
-    int temp_select = (rand() % (3 - 1 + 1)) + 1;
+    int temp_select = (rand() % (5 - 1 + 1)) + 1;
     if(this->select == temp_select) temp_select = (rand() % (3 - 1 + 1)) + 1;
     this->select = temp_select;
 
@@ -91,15 +97,14 @@ void BotManager::performState() {
     BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
     float fOffset = this->fSpeed * this->tDeltaTime.asSeconds();
 
+    BulletCollision* pCollide = (BulletCollision*)ObjectPoolManager::getInstance()->getPool(PoolTag::BULLET_COLLIDER)->getPoolable();
+    pCollide->setPosition(pEnemy->getPosition());
+
     /*
     Checklist:
     - Limit move distance to a certain range;
     - (i.e. Condition Based: if(randomized_int > )
     */
-
-    //this->getDelayTimer();
-    //std::cout << this->delayTimer.getElapsedTime().asMilliseconds() << std::endl;
-    //this->selectState();
 
     switch(ETag) {
         case BotTag::IDLE:
@@ -119,6 +124,7 @@ void BotManager::performState() {
             else {
                 pEnemy->getSprite()->setScale(-2.0f,2.0f);
                 pEnemy->getSprite()->move(-fOffset,0.f);
+                pCollide->getSprite()->setScale(-1.f,1.f);
             }
             break;
 
@@ -129,6 +135,7 @@ void BotManager::performState() {
             else {
                 pEnemy->getSprite()->setScale(2.0f,2.0f);
                 pEnemy->getSprite()->move(fOffset,0.f);
+                pCollide->getSprite()->setScale(1.f,1.f);
             }
             break;
         
