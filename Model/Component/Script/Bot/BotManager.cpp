@@ -4,7 +4,7 @@ using namespace components;
 
 BotManager::BotManager(std::string strName) : Component  (strName, ComponentType::SCRIPT) {
     this->ETag = BotTag::IDLE;
-    this->fSpeed = 40.0f;
+    this->fSpeed = 20.0f;
     this->delayTimer.restart();
     this->delayTimerMax = 1.3f;
     this->select = 0;
