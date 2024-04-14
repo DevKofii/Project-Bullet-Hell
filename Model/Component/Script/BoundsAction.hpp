@@ -13,6 +13,9 @@
 #include "../../../Controller/Manager/ObjectCollisionManager.hpp"
 #include "../../../Controller/Manager/GameObjectManager.hpp"
 
+#include "../../Pooling/Entity/TestBullet_R.hpp"
+#include "../../Pooling/Entity/TestBullet_L.hpp"
+
 
 namespace components {
     using namespace managers;

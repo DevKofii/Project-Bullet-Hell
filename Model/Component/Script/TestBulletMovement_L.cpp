@@ -10,8 +10,15 @@ TestBulletMovement_L::TestBulletMovement_L(std::string strName) : Component(strN
 
 void TestBulletMovement_L::perform() {
     PoolableObject* pPoolableOwnerL = (PoolableObject*)this->pOwner;
+    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
+    TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
     
-
+    Barrier* p1 = (Barrier*)GameObjectManager::getInstance()->findObjectByName("Barrier1");
+    Barrier* p2 = (Barrier*)GameObjectManager::getInstance()->findObjectByName("Barrier2");
+    Barrier* p3 = (Barrier*)GameObjectManager::getInstance()->findObjectByName("Barrier3");
+    Barrier* p4 = (Barrier*)GameObjectManager::getInstance()->findObjectByName("Barrier4");
+    Barrier* p5 = (Barrier*)GameObjectManager::getInstance()->findObjectByName("Barrier5");
+    Barrier* p6 = (Barrier*)GameObjectManager::getInstance()->findObjectByName("Barrier6");
 
     if(pPoolableOwnerL == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
@@ -32,6 +39,32 @@ void TestBulletMovement_L::perform() {
             //Bullet Outside Boundary
             if(-pPoolableOwnerL->getSprite()->getPosition().x >= (SCREEN_WIDTH + fHalfWidth)) {
                 ObjectPoolManager::getInstance()->getPool(pPoolableOwnerL->getTag())->releasePoolable(pPoolableOwnerL);
+            }
+
+            //Bullet Hits Right Barrier
+            if(pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(p1->getSprite()->getGlobalBounds()) ||
+            pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(p2->getSprite()->getGlobalBounds()) || 
+            pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(p3->getSprite()->getGlobalBounds()) || 
+            pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(p4->getSprite()->getGlobalBounds()) || 
+            pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(p5->getSprite()->getGlobalBounds()) || 
+            pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(p6->getSprite()->getGlobalBounds())) {
+                ObjectPoolManager::getInstance()->getPool(pPoolableOwnerL->getTag())->releasePoolable(pPoolableOwnerL);
+            }
+
+            //Player Bullet Hits Enemy
+            if(pPoolableOwnerL->getName() == "Test Bullet L") {
+                if(pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(pEnemy->getSprite()->getGlobalBounds())) {
+                    //std::cout << "Hits Enemy" << std::endl;
+                    ObjectPoolManager::getInstance()->getPool(pPoolableOwnerL->getTag())->releasePoolable(pPoolableOwnerL);
+                }
+            }
+            
+            //Enemy Bullet Hits Player
+            else {
+                if(pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(pPlayer->getSprite()->getGlobalBounds())) {
+                    //std::cout << "Hits Player" << std::endl;
+                    ObjectPoolManager::getInstance()->getPool(pPoolableOwnerL->getTag())->releasePoolable(pPoolableOwnerL);
+                }
             }
         }
         

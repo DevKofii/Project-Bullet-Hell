@@ -7,6 +7,7 @@ TestEnemy::TestEnemy(std::string strName, AnimatedTexture* pTexture, int ID) : G
     this->random = 0;
     this->ID = ID;
     this->move = false;
+    this->attack = false;
 }
 
 void TestEnemy::initialize() {
@@ -53,4 +54,12 @@ void TestEnemy::setTag(BotTag ETag) {
 
 int TestEnemy::getID() {
     return this->ID;
+}
+
+bool TestEnemy::getAttack() {
+    return this->attack;
+}
+
+void TestEnemy::setAttack(bool attack) {
+    this->attack = attack;
 }

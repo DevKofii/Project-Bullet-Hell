@@ -14,6 +14,8 @@
 
 #include "../Pooling/Entity/TestBullet_R.hpp"
 #include "../Pooling/Entity/TestBullet_L.hpp"
+#include "../Pooling/Entity/TestBullet_R_Bot.hpp"
+#include "../Pooling/Entity/TestBullet_L_Bot.hpp"
 #include "../../Controller/Manager/ObjectPoolManager.hpp"
 #include "../../Controller/Manager/ObjectCollisionManager.hpp"
 #include "../../Controller/Pooling/GameObjectPool.hpp"

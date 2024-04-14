@@ -4,10 +4,12 @@ using namespace components;
 
 BotManager::BotManager(std::string strName) : Component  (strName, ComponentType::SCRIPT) {
     this->ETag = BotTag::IDLE;
-    this->fSpeed = 20.0f;
+    this->fSpeed = 30.0f;
     this->delayTimer.restart();
-    this->delayTimerMax = 1.3f;
+    this->delayTimerMax = 1.0f;
+    this->delayTimerMaxLonger = 2.0f;
     this->select = 0;
+    this->curState = StateTag::EXIT;
 }
 
 void BotManager::perform() {
@@ -17,15 +19,17 @@ void BotManager::perform() {
     Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow");
 
     //Set Scale
-    pShadow->setScale({5.0f,5.0f});
+    pShadow->setScale({7.5f,7.5f});
 
     //Set pos
     pCollide->setPosition(pEnemy->getPosition());
     pShadow->setPosition(pEnemy->getPosition());
 
     //Set Transparency
-    pShadow->getSprite()->setColor(sf::Color(255,255,255,10));
-    pCollide->getSprite()->setColor(sf::Color(255,255,255,20));
+    //pShadow->getSprite()->setColor(sf::Color(255,255,255,10));
+    //pCollide->getSprite()->setColor(sf::Color(255,255,255,20));
+    pShadow->getSprite()->setColor(sf::Color::Transparent);
+    pCollide->getSprite()->setColor(sf::Color::Transparent);
 
     if(pEnemy == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
@@ -125,21 +129,35 @@ void BotManager::performState() {
 
         case BotTag::CHASE:
             if(this->isValidFOV()) {
+                //std::cout << "I SEE YOU!" << std::endl;
                 pEnemy->setMove(true);
                 this->chaseTarget();
             }
             else {
-                pEnemy->setMove(false);
-                if(this->getDelayTimer()) {
-                    this->selectState();
-                }
-                else {
-                    pEnemy->getSprite()->move(0.f,0.f);
-                }
+                this->selectState();
             }
             break;
 
         default:
+            break;
+    }
+
+    switch(this->getState()) {
+        case StateTag::ENTER:
+            if(this->isValidCollider()) {
+                if(this->getDelayTimerLonger()) {
+                    pEnemy->setAttack(false);
+                    this->setState(StateTag::EXIT);
+                }
+                else {
+                    this->attack();
+                }
+            }
+            break;
+        case StateTag::EXIT:
+            if(this->isValidCollider()) {
+                this->setState(StateTag::ENTER);
+            }
             break;
     }
 }
@@ -200,11 +218,19 @@ void BotManager::checkCollision() {
     }
 }
 
+
 bool BotManager::isValidFOV() {
     TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
     Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow");
 
     return pPlayer->getSprite()->getGlobalBounds().intersects(pShadow->getSprite()->getGlobalBounds());
+}
+
+bool BotManager::isValidCollider() {
+    TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
+    Collider* pCollide = (Collider*)GameObjectManager::getInstance()->findObjectByName("Collider");
+
+    return pPlayer->getSprite()->getGlobalBounds().intersects(pCollide->getSprite()->getGlobalBounds());
 }
 
 void BotManager::chaseTarget() {
@@ -218,14 +244,33 @@ void BotManager::chaseTarget() {
     sf::Vector2f moveSpeed = (normalized_dist * 10.0f * ((float) this->tDeltaTime.asMilliseconds() / 60));
     pEnemy->getSprite()->move(moveSpeed); 
 
-    if(pPlayer->getPosition().x < pEnemy->getPosition().x) {
-        pEnemy->getSprite()->setScale(-2.0f,2.0f);
-        pCollide->getSprite()->setScale(-1.0f,1.0f);
-    }
-    if(pPlayer->getPosition().x > pEnemy->getPosition().x) {
-        pEnemy->getSprite()->setScale(2.0f,2.0f);
-        pCollide->getSprite()->setScale(1.0f,1.0f);
-    }
+    //Change Scale
+        //Left Side
+        if(pPlayer->getPosition().x < pEnemy->getPosition().x) {
+            pEnemy->getSprite()->setScale(-2.0f,2.0f);
+            pCollide->getSprite()->setScale(-1.0f,1.0f);
+        }
+        //Right Side
+        if(pPlayer->getPosition().x > pEnemy->getPosition().x) {
+            pEnemy->getSprite()->setScale(2.0f,2.0f);
+            pCollide->getSprite()->setScale(1.0f,1.0f);
+        }
+}
+
+void BotManager::attack() {
+    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
+    TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
+
+    //Left Side
+        if(pPlayer->getPosition().x < pEnemy->getPosition().x && pEnemy->getAttack() == false) {
+            ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_L_BOT)->requestPoolable();
+            //pEnemy->setAttack(true);
+        }
+    //Right Side
+        if(pPlayer->getPosition().x > pEnemy->getPosition().x && pEnemy->getAttack() == false) {
+            ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_R_BOT)->requestPoolable();
+            //pEnemy->setAttack(true);
+        }
 }
 
 sf::Vector2f BotManager::normalize(sf::Vector2f vec) {
@@ -250,4 +295,22 @@ const bool BotManager::getDelayTimer() {
         return true;
     }
     return false;
+}
+
+const bool BotManager::getDelayTimerLonger() {
+    //std::cout << this->delayTimer.getElapsedTime().asSeconds() << std::endl;
+    if(this->delayTimer.getElapsedTime().asSeconds() >= this->delayTimerMaxLonger)
+    {
+        this->delayTimer.restart();
+        return true;
+    }
+    return false;
+}
+
+StateTag BotManager::getState() { 
+    return this->curState;
+}
+
+void BotManager::setState(StateTag ETag) {
+    this->curState = ETag;
 }

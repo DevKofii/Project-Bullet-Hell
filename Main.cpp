@@ -8,7 +8,6 @@
 #include "Controller/Manager/TextureManager.cpp"
 #include "Controller/Manager/GameObjectManager.cpp"
 #include "Controller/Manager/ObjectPoolManager.cpp"
-#include "Controller/Manager/ObjectCollisionManager.cpp"
 #include "Controller/Manager/SceneManager.cpp"
 
 #include "Controller/Pooling/GameObjectPool.cpp"
@@ -30,6 +29,8 @@
 #include "Model/Pooling/Entity/PlayerBullet.cpp"
 #include "Model/Pooling/Entity/TestBullet_R.cpp"
 #include "Model/Pooling/Entity/TestBullet_L.cpp"
+#include "Model/Pooling/Entity/TestBullet_R_Bot.cpp"
+#include "Model/Pooling/Entity/TestBullet_L_Bot.cpp"
 
 #include "Model/Scene.cpp"
 #include "Model/Scene/MainMenuScene.cpp"

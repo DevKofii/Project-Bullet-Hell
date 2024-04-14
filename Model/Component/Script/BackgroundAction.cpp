@@ -13,7 +13,7 @@ void BackgroundAction::perform() {
             SceneManager::getInstance()->loadScene(SceneTag::TEST_SCENE);
         }
         if(pBackgroundInput->getQuit()) {
-            SceneManager::getInstance()->loadScene(SceneTag::MAIN_MENU_SCENE);
+            //SceneManager::getInstance()->loadScene(SceneTag::MAIN_MENU_SCENE);
         }
     }
 }

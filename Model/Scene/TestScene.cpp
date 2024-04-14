@@ -10,9 +10,9 @@ void TestScene::onLoadResources() {
 
 void TestScene::onLoadObjects() {
     this->createBackground();
-    //this->spawnMisc();
+    this->spawnMisc();
     this->createBarrier();
-    //this->spawnBot();
+    this->spawnBot();
     this->spawnUnit();
     this->createObjectPools();
 }
@@ -132,7 +132,9 @@ void TestScene::spawnBot() {
 void TestScene::createObjectPools() {
     AnimatedTexture* pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::TEST_BULLET));
     TestUnit* pTestUnit = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
+    TestEnemy* pTestBot = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
 
+    //Player
     TestBullet_R* pTestBulletRef_R = new TestBullet_R("Test Bullet R",pTexture,pTestUnit);
     GameObjectPool* pTestBulletPool_R = new GameObjectPool(PoolTag::TEST_BULLET_R, 3, pTestBulletRef_R);
     pTestBulletPool_R->initalize();
@@ -142,6 +144,17 @@ void TestScene::createObjectPools() {
     GameObjectPool* pTestBulletPool_L = new GameObjectPool(PoolTag::TEST_BULLET_L, 3, pTestBulletRef_L);
     pTestBulletPool_L->initalize();
     ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_L);
+
+    //Bot
+    TestBullet_R_Bot* pTestBulletRef_R_Bot = new TestBullet_R_Bot("Test Bullet R Bot",pTexture,pTestBot);
+    GameObjectPool* pTestBulletPool_R_Bot = new GameObjectPool(PoolTag::TEST_BULLET_R_BOT, 3, pTestBulletRef_R_Bot);
+    pTestBulletPool_R_Bot->initalize();
+    ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_R_Bot);
+
+    TestBullet_L_Bot* pTestBulletRef_L_Bot = new TestBullet_L_Bot("Test Bullet L Bot",pTexture,pTestBot);
+    GameObjectPool* pTestBulletPool_L_Bot = new GameObjectPool(PoolTag::TEST_BULLET_L_BOT, 3, pTestBulletRef_L_Bot);
+    pTestBulletPool_L_Bot->initalize();
+    ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_L_Bot);
     
     // GameObjectPool* pRetrievedPool_R = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_R);
     // pRetrievedPool_R->requestPoolable();

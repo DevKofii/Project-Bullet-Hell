@@ -10,6 +10,7 @@
 #include "../../Component.hpp"
 #include "../../../Enum/ComponentType.hpp"
 #include "../../../Enum/BotTag.hpp"
+#include "../../../Enum/StateTag.hpp"
 #include "../../../GameObject.hpp"
 #include "../../../Entity/TestEnemy.hpp"
 #include "../../../Entity/TestUnit.hpp"
@@ -32,7 +33,11 @@ namespace components {
             BotTag ETag;
             sf::Clock delayTimer;
             float delayTimerMax;
+            float delayTimerMaxLonger;
             int select;
+
+            StateTag curState;
+
         public:
             BotManager(std::string strName);
 
@@ -45,10 +50,18 @@ namespace components {
             void checkCollision();
 
         public:
+            void debug();
+
             bool isValidFOV();
+            bool isValidCollider();
             void chaseTarget();
+            void attack();
             void setTag(BotTag ETag);
             sf::Vector2f normalize(sf::Vector2f vec);
             const bool getDelayTimer();
+            const bool getDelayTimerLonger();
+
+            StateTag getState();
+            void setState(StateTag ETag);
     };
 }

@@ -7,6 +7,7 @@
 #include "../../../Controller/Manager/ObjectPoolManager.hpp"
 #include "../../Entity/TestUnit.hpp"
 #include "../../Entity/TestEnemy.hpp"
+#include "../../Entity/Barrier.hpp"
 
 namespace components {
     using namespace models;

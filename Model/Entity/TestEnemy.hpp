@@ -17,6 +17,7 @@ namespace entities {
             int random;
             int ID;
             bool move;
+            bool attack;
 
         public:
             TestEnemy(std::string strName, AnimatedTexture* pTexture, int ID);
@@ -35,5 +36,8 @@ namespace entities {
             void setTag(BotTag ETag);
 
             int getID();
+
+            bool getAttack();
+            void setAttack(bool attack);
     };
 }

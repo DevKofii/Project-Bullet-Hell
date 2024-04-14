@@ -6,6 +6,10 @@
 #include "../Component.hpp"
 #include "../../../Controller/Manager/ObjectPoolManager.hpp"
 
+#include "../../Entity/Barrier.hpp"
+#include "../../Entity/TestUnit.hpp"
+#include "../../Entity/TestEnemy.hpp"
+
 namespace components {
     using namespace models;
     using namespace managers;
