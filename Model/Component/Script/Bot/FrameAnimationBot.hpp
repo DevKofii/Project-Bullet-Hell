@@ -3,7 +3,6 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "../../../AnimatedTexture.hpp"
-#include "../../Input/Bot/BotInput.hpp"
 #include "../../../Entity/TestEnemy.hpp"
 #include "../../Component.hpp"
 #include "../../../Enum/ComponentType.hpp"

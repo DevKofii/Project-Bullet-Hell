@@ -10,6 +10,7 @@ void TestScene::onLoadResources() {
 
 void TestScene::onLoadObjects() {
     this->createBackground();
+    this->spawnMisc();
     this->spawnBot();
     this->spawnUnit();
     this->createObjectPools();
@@ -25,6 +26,17 @@ void TestScene::createBackground() {
     GameObjectManager::getInstance()->addObject(pTestBackground);
 }
 
+void TestScene::spawnMisc() {
+    AnimatedTexture* pTexture;
+    pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::BULLET_COLLIDER));
+    Collider* pCollider = new Collider("Collider", pTexture);
+    this->registerObject(pCollider);
+
+    pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::SHADOW));
+    Shadow* pShadow = new Shadow("Shadow", pTexture);
+    this->registerObject(pShadow);
+}
+
 void TestScene::spawnUnit() {
     AnimatedTexture* pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::TEST_UNIT));
     TestUnit* pTestUnit = new TestUnit("TestUnit", pTexture);
@@ -38,7 +50,7 @@ void TestScene::spawnUnit() {
 
 void TestScene::spawnBot() {
     AnimatedTexture* pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::TEST_UNIT));
-    TestEnemy* pTestBot = new TestEnemy("TestBot", pTexture);
+    TestEnemy* pTestBot = new TestEnemy("TestBot", pTexture, 0);
     pTestBot->setFrame(0);
     pTestBot->setOrientationRight(false);
     pTestBot->setOrientationLeft(true);
@@ -60,14 +72,6 @@ void TestScene::createObjectPools() {
     GameObjectPool* pTestBulletPool_L = new GameObjectPool(PoolTag::TEST_BULLET_L, 3, pTestBulletRef_L);
     pTestBulletPool_L->initalize();
     ObjectPoolManager::getInstance()->registerObjectPool(pTestBulletPool_L);
-
-    pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::BULLET_COLLIDER));
-    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
-
-    BulletCollision* pBulletCollider = new BulletCollision("TestBulletCollider",pTexture,pEnemy);
-    GameObjectPool* pPool = new GameObjectPool(PoolTag::BULLET_COLLIDER, 1, pBulletCollider);
-    pPool->initalize();
-    ObjectPoolManager::getInstance()->registerObjectPool(pPool);
     
     // GameObjectPool* pRetrievedPool_R = ObjectPoolManager::getInstance()->getPool(PoolTag::TEST_BULLET_R);
     // pRetrievedPool_R->requestPoolable();

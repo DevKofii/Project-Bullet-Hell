@@ -9,8 +9,21 @@ TestBulletMovement_R::TestBulletMovement_R(std::string strName) : Component(strN
     this->fSpeed = 350.0f;
 }
 
+sf::Vector2f normalize(sf::Vector2f vec) {
+    float magnitude = sqrtf(vec.x * vec.x + vec.y * vec.y);
+    if (magnitude != 0) 
+    {
+        vec.x /= magnitude;
+        vec.y /= magnitude;
+    }
+    return vec;
+}
+
+
 void TestBulletMovement_R::perform() {
     PoolableObject* pPoolableOwner = (PoolableObject*)this->pOwner;
+    TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
+    TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
 
     if(pPoolableOwner == NULL && pOwner == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
@@ -23,6 +36,7 @@ void TestBulletMovement_R::perform() {
             this->fTicks = 0.0f;
 
             pPoolableOwner->getSprite()->move(fOffset, 0.0f);
+            //pPoolableOwner->getSprite()->move(moveSpeed);
 
             float fHalfWidth = pPoolableOwner->getSprite()->getGlobalBounds().width / 2.0f;
             //Bullet Outside Boundary

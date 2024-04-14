@@ -13,7 +13,6 @@ namespace models {
             bool bEnabled;
             std::string strName;
             sf::Sprite* pSprite;
-            //sf::Texture* pTexture;
             AnimatedTexture* pTexture;
             float fSpeed;
             std::vector<Component*> vecComponents;
@@ -25,15 +24,9 @@ namespace models {
             GameObject* pParent;
             std::vector<GameObject*> vecChildren;
 
-            // std::vector<PoolableObject*> vecChildrenPools;
-
         public:
             GameObject(std::string strName, AnimatedTexture* pTexture);
             GameObject(std::string strName, float fSpeed, AnimatedTexture* pTexture);
-        
-        /* [TODO][1] :
-           Update this class' content based on the lecture
-           slides. */
 
         public:
             virtual void initialize() = 0;
@@ -41,20 +34,13 @@ namespace models {
             virtual void update(sf::Time tDeltaTime);
             virtual void draw(sf::RenderWindow* pWindow);
 
-        protected:
-            //virtual void processKeyboardInput(sf::Keyboard::Key CKey, bool bPressed) = 0;
-
         public:
             void attachComponent(Component* pComponent);
             void detachComponent(Component* pComponent);
             void attachChild(GameObject* pChild);
             void detachChild(GameObject* pChild);
-            // void attachPoolable(PoolableObject* pPoolObj);
-            // void detachPoolable(PoolableObject* pPoolObj);
             Component* findComponentByName(std::string strName);
             std::vector<Component*> getComponents(ComponentType EType);
-            // PoolableObject* findPoolablesByName(std::string strName);
-            // std::vector<PoolableObject*> getPoolables(PoolTag EType);
             sf::Sprite* getSprite();
             void centerOrigin();
 
@@ -79,5 +65,6 @@ namespace models {
             virtual sf::Vector2f getPosition();
             virtual void setPosition(sf::Vector2f vecPosition);
             virtual void setScale(sf::Vector2f vecScale);
+            void resetPos();
     };
 }

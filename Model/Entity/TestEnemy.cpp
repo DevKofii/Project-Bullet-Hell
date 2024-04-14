@@ -2,15 +2,15 @@
 
 using namespace entities;
 
-TestEnemy::TestEnemy(std::string strName, AnimatedTexture* pTexture) : GameObject(strName, 100.0f, pTexture) {}
+TestEnemy::TestEnemy(std::string strName, AnimatedTexture* pTexture, int ID) : GameObject(strName, 300.0f, pTexture) {
+    this->ETag = BotTag::IDLE;
+    this->random = 0;
+    this->ID = ID;
+    this->move = false;
+}
 
 void TestEnemy::initialize() {
-    this->centerOrigin();;
-    //this->pSprite->setPosition(90.f,210.f);
-    //this->pSprite->setScale(2.0f,2.0f);
-
-    BotInput* pInput = new BotInput(this->strName + " Input");
-    this->attachComponent(pInput);
+    this->centerOrigin();
     
     BotManager* pBotManager = new BotManager(this->strName + " Script");
     this->attachComponent(pBotManager);
@@ -23,10 +23,34 @@ void TestEnemy::initialize() {
     this->attachComponent(pRenderer);
 }
 
-int TestEnemy::getFrameStart() {
-    return this->nFrameStart;
+int TestEnemy::getRandom() {
+    return this->random;
 }
 
-int TestEnemy::getFrameEnd() {
-    return this->nFrameEnd;
+void TestEnemy::setRandom() {
+    srand(time(NULL));
+    int temp_select = (rand() % (7 - 1 + 1)) + 1;
+    if(this->random == temp_select) temp_select = (rand() % (7 - 1 + 1)) + 1;
+
+    this->random = temp_select;
+}
+
+bool TestEnemy::getMove() {
+    return this->move; 
+}
+
+void TestEnemy::setMove(bool move) {
+    this->move = move;
+}
+
+BotTag TestEnemy::getTag() {
+    return this->ETag;
+}
+
+void TestEnemy::setTag(BotTag ETag) {
+    this->ETag = ETag;
+}
+
+int TestEnemy::getID() {
+    return this->ID;
 }

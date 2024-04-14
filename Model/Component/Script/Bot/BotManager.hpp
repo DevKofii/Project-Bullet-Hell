@@ -13,12 +13,10 @@
 #include "../../../GameObject.hpp"
 #include "../../../Entity/TestEnemy.hpp"
 #include "../../../Entity/TestUnit.hpp"
-#include "../../Input/Bot/BotInput.hpp"
+#include "../../../Entity/Collider.hpp"
+#include "../../../Entity/Shadow.hpp"
 
 #include "../../../../Controller/Manager/GameObjectManager.hpp"
-
-#include "../../../Pooling/Entity/BulletCollision.hpp"
-
 
 namespace components {
     using namespace managers;
@@ -33,7 +31,7 @@ namespace components {
             float fSpeed;
             BotTag ETag;
             sf::Clock delayTimer;
-            sf::Int32 delayTimerMax;
+            float delayTimerMax;
             int select;
         public:
             BotManager(std::string strName);
@@ -42,16 +40,12 @@ namespace components {
             void perform();
 
             void conditions();
-            void checkState();
             void selectState();            
             void performState();
             void checkCollision();
 
-            void test1();
-
-            void delay();
-
         public:
+            void chaseTarget();
             void setTag(BotTag ETag);
             sf::Vector2f normalize(sf::Vector2f vec);
             const bool getDelayTimer();

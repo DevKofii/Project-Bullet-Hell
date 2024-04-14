@@ -204,3 +204,7 @@ void GameObject::setPosition(sf::Vector2f vecPosition) {
 void GameObject::setScale(sf::Vector2f vecScale) {
     this->pSprite->setScale(vecScale);
 }
+
+void GameObject::resetPos() {
+    this->pSprite->setPosition(-10000.f,-10000.f);
+}

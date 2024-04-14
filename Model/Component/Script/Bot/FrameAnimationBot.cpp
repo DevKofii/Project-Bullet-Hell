@@ -10,13 +10,12 @@ FrameAnimationBot::FrameAnimationBot(std::string strName) : Component(strName,Co
 
 void FrameAnimationBot::perform() {
     TestEnemy* pEnemy = (TestEnemy*)this->pOwner;
-    BotInput* pInput = (BotInput*) this->getOwner()->getComponents(ComponentType::INPUT)[0];
 
-    if(pEnemy == NULL && pInput == NULL) {
+    if(pEnemy == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
     }
     else {
-        if(pInput->getRight() || pInput->getLeft() || pInput->getUp() || pInput->getDown()) {
+        if(pEnemy->getMove()) {
             this->fTicks += this->tDeltaTime.asSeconds();
             if(this->fTicks > this->fFrameInterval) {
                 this->fTicks = 0.0f;

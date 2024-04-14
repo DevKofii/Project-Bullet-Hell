@@ -21,12 +21,13 @@
 #include "Model/Entity/TestBackground.cpp"
 #include "Model/Entity/TestUnit.cpp"
 #include "Model/Entity/TestEnemy.cpp"
+#include "Model/Entity/Collider.cpp"
+#include "Model/Entity/Shadow.cpp"
 
 #include "Model/Pooling/PoolableObject.cpp"
 #include "Model/Pooling/Entity/PlayerBullet.cpp"
 #include "Model/Pooling/Entity/TestBullet_R.cpp"
 #include "Model/Pooling/Entity/TestBullet_L.cpp"
-#include "Model/Pooling/Entity/BulletCollision.cpp"
 
 #include "Model/Scene.cpp"
 #include "Model/Scene/MainMenuScene.cpp"
@@ -51,8 +52,6 @@
 
 #include "Model/Component/Script/FrameAnimation.cpp"
 #include "Model/Component/Script/CollisionManager.cpp"
-
-#include "Model/Component/Input/Bot/BotInput.cpp"
 
 #include "Model/Component/Script/Bot/BotManager.cpp"
 #include "Model/Component/Script/Bot/FrameAnimationBot.cpp"
