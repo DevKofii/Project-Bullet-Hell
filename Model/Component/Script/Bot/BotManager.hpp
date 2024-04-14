@@ -44,13 +44,11 @@ namespace components {
         public:
             void perform();
 
-            void conditions();
             void selectState();            
             void performState();
             void checkCollision();
 
         public:
-            void debug();
 
             bool isValidFOV();
             bool isValidCollider();

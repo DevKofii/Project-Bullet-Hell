@@ -64,6 +64,7 @@ void TestBulletMovement_R::perform() {
                 if(pPoolableOwner->getSprite()->getGlobalBounds().intersects(pEnemy->getSprite()->getGlobalBounds())) {
                     //std::cout << "Hits Enemy" << std::endl;
                     ObjectPoolManager::getInstance()->getPool(pPoolableOwner->getTag())->releasePoolable(pPoolableOwner);
+                    pEnemy->setPosition({690.f,210.f});
                 }
             }
             
@@ -72,6 +73,7 @@ void TestBulletMovement_R::perform() {
                 if(pPoolableOwner->getSprite()->getGlobalBounds().intersects(pPlayer->getSprite()->getGlobalBounds())) {
                     //std::cout << "Hits Player" << std::endl;
                     ObjectPoolManager::getInstance()->getPool(pPoolableOwner->getTag())->releasePoolable(pPoolableOwner);
+                    pPlayer->setPosition({90.f,210.f});
                 }
             }
         }

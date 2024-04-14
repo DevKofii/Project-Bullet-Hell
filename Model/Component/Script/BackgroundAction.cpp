@@ -6,6 +6,7 @@ BackgroundAction::BackgroundAction(std::string strName) : Component(strName, Com
 
 void BackgroundAction::perform() {
     BackgroundInput* pBackgroundInput = (BackgroundInput*)this->getOwner()->getComponents(ComponentType::INPUT)[0]; 
+
     if(pBackgroundInput == NULL) std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
     else {
         if(pBackgroundInput->getInteract()) {
