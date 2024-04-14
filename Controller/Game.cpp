@@ -2,7 +2,7 @@
 
 using namespace controllers;
 
-Game::Game() : CWindow(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"PROJECT BULLET HELL",sf::Style::Close){
+Game::Game() : CWindow(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"PROJECT BULLET HELL | MADE BY RAGUDO, GABRIEL, AND LAPUZ",sf::Style::Close){
     SceneManager::getInstance()->registerScene(new MainMenuScene());
     SceneManager::getInstance()->registerScene(new TestScene());
     SceneManager::getInstance()->loadScene(SceneTag::MAIN_MENU_SCENE);
