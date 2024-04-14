@@ -45,6 +45,7 @@ namespace components {
             void checkCollision();
 
         public:
+            bool isValidFOV();
             void chaseTarget();
             void setTag(BotTag ETag);
             sf::Vector2f normalize(sf::Vector2f vec);

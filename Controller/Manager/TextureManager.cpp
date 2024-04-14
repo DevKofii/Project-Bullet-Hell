@@ -50,10 +50,12 @@ void TextureManager::loadTest() {
     //Load BulletCollider
     pTexture = new sf::Texture();
     pTexture->loadFromFile("View/Image/parts/collision/BulletTest.png");
+    pTexture->setSmooth(1);
     this->mapTexture[AssetType::BULLET_COLLIDER].push_back(pTexture);
 
     pTexture = new sf::Texture();
     pTexture->loadFromFile("View/Image/char/anims/parts/Shadow.png");
+    pTexture->setSmooth(1);
     this->mapTexture[AssetType::SHADOW].push_back(pTexture);
 }
 

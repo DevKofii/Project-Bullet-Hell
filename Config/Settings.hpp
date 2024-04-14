@@ -1,4 +1,5 @@
 #pragma once
+#define PI 3.14159265
 
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 440;

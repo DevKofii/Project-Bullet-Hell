@@ -11,12 +11,13 @@ BotManager::BotManager(std::string strName) : Component  (strName, ComponentType
 }
 
 void BotManager::perform() {
+    TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
     TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
     Collider* pCollide = (Collider*)GameObjectManager::getInstance()->findObjectByName("Collider");
     Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow");
 
     //Set Scale
-    pShadow->setScale({2.5f,2.5f});
+    pShadow->setScale({5.0f,5.0f});
 
     //Set pos
     pCollide->setPosition(pEnemy->getPosition());
@@ -24,7 +25,7 @@ void BotManager::perform() {
 
     //Set Transparency
     pShadow->getSprite()->setColor(sf::Color(255,255,255,10));
-    pCollide->getSprite()->setColor(sf::Color::Transparent);
+    pCollide->getSprite()->setColor(sf::Color(255,255,255,20));
 
     if(pEnemy == NULL) {
         std::cout << "[ERROR] : One or more dependencies are missing." << std::endl;
@@ -60,9 +61,8 @@ void BotManager::selectState() {
 
 void BotManager::performState() {
     TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
-    float fOffset = this->fSpeed * this->tDeltaTime.asSeconds();
-
     Collider* pCollide = (Collider*)GameObjectManager::getInstance()->findObjectByName("Collider");
+    float fOffset = this->fSpeed * this->tDeltaTime.asSeconds();
 
     switch(pEnemy->getTag()) {
         case BotTag::IDLE:
@@ -122,6 +122,23 @@ void BotManager::performState() {
                 pEnemy->getSprite()->move(0.f, fOffset);
             }
             break;
+
+        case BotTag::CHASE:
+            if(this->isValidFOV()) {
+                pEnemy->setMove(true);
+                this->chaseTarget();
+            }
+            else {
+                pEnemy->setMove(false);
+                if(this->getDelayTimer()) {
+                    this->selectState();
+                }
+                else {
+                    pEnemy->getSprite()->move(0.f,0.f);
+                }
+            }
+            break;
+
         default:
             break;
     }
@@ -130,7 +147,7 @@ void BotManager::performState() {
 void BotManager::checkCollision() {
     TestEnemy* pEnemy = (TestEnemy*)GameObjectManager::getInstance()->findObjectByName("TestBot");
     TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
-    Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow" + std::to_string(pEnemy->getID()));
+    Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow");
 
     float fOffset  = this->fSpeed * this->tDeltaTime.asSeconds();
     //Left Boundary
@@ -176,18 +193,39 @@ void BotManager::checkCollision() {
             pEnemy->setTag(BotTag::WALK_UP);
         }
     }
+
+    //FieldOfView Collision
+    if(this->isValidFOV()) { 
+        pEnemy->setTag(BotTag::CHASE);
+    }
+}
+
+bool BotManager::isValidFOV() {
+    TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
+    Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow");
+
+    return pPlayer->getSprite()->getGlobalBounds().intersects(pShadow->getSprite()->getGlobalBounds());
 }
 
 void BotManager::chaseTarget() {
     TestUnit* pPlayer = (TestUnit*)GameObjectManager::getInstance()->findObjectByName("TestUnit");
+    Collider* pCollide = (Collider*)GameObjectManager::getInstance()->findObjectByName("Collider");
     TestEnemy* pEnemy = (TestEnemy*)this->pOwner;
-    Shadow* pShadow = (Shadow*)GameObjectManager::getInstance()->findObjectByName("Shadow" + std::to_string(pEnemy->getID()));
     
     sf::Vector2f distance = ((pPlayer->getPosition()) - pEnemy->getPosition());
     sf::Vector2f normalized_dist = this->normalize(distance);
 
-    sf::Vector2f moveSpeed = (normalized_dist * 5.0f * ((float) this->tDeltaTime.asMilliseconds() / 60));
+    sf::Vector2f moveSpeed = (normalized_dist * 10.0f * ((float) this->tDeltaTime.asMilliseconds() / 60));
     pEnemy->getSprite()->move(moveSpeed); 
+
+    if(pPlayer->getPosition().x < pEnemy->getPosition().x) {
+        pEnemy->getSprite()->setScale(-2.0f,2.0f);
+        pCollide->getSprite()->setScale(-1.0f,1.0f);
+    }
+    if(pPlayer->getPosition().x > pEnemy->getPosition().x) {
+        pEnemy->getSprite()->setScale(2.0f,2.0f);
+        pCollide->getSprite()->setScale(1.0f,1.0f);
+    }
 }
 
 sf::Vector2f BotManager::normalize(sf::Vector2f vec) {
