@@ -40,3 +40,7 @@ bool BackgroundInput::getInteract() {
 bool BackgroundInput::getQuit() {
     return this->bQuit;
 }
+
+void BackgroundInput::setInteract(bool bPressed) {
+    this->bInteract = bPressed;
+}

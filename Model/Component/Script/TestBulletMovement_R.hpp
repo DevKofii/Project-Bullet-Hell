@@ -5,6 +5,7 @@
 #include "../../Pooling/PoolableObject.hpp"
 #include "../Component.hpp"
 #include "../../../Controller/Manager/ObjectPoolManager.hpp"
+#include "../../../Controller/Manager/ScoreManager.hpp"
 #include "../../Entity/TestUnit.hpp"
 #include "../../Entity/TestEnemy.hpp"
 #include "../../Entity/Barrier.hpp"

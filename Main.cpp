@@ -9,6 +9,7 @@
 #include "Controller/Manager/GameObjectManager.cpp"
 #include "Controller/Manager/ObjectPoolManager.cpp"
 #include "Controller/Manager/SceneManager.cpp"
+#include "Controller/Manager/ScoreManager.cpp"
 
 #include "Controller/Pooling/GameObjectPool.cpp"
 

@@ -17,7 +17,7 @@
 #include "../Pooling/Entity/TestBullet_R_Bot.hpp"
 #include "../Pooling/Entity/TestBullet_L_Bot.hpp"
 #include "../../Controller/Manager/ObjectPoolManager.hpp"
-#include "../../Controller/Manager/ObjectCollisionManager.hpp"
+#include "../../Controller/Manager/ScoreManager.hpp"
 #include "../../Controller/Pooling/GameObjectPool.hpp"
 
 namespace scenes {
@@ -40,5 +40,6 @@ namespace scenes {
             void spawnUnit();
             void spawnBot();
             void createObjectPools();
+            void loadScores();
     };
 }

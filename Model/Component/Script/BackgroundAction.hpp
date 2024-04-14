@@ -12,10 +12,14 @@
 namespace components {
     using namespace managers;
     class BackgroundAction : public Component {
+        protected:
+            bool bDebug;
+
         public:
             BackgroundAction(std::string strName);
 
         public:
             void perform();
+            void debug();
     };
 }

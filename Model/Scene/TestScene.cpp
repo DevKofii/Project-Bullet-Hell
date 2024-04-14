@@ -15,6 +15,7 @@ void TestScene::onLoadObjects() {
     this->spawnBot();
     this->spawnUnit();
     this->createObjectPools();
+    this->loadScores();
 }
 
 void TestScene::onUnloadResources() {
@@ -25,6 +26,8 @@ void TestScene::createBackground() {
     AnimatedTexture* pTexture = new AnimatedTexture(TextureManager::getInstance()->getTexture(AssetType::TEST_BACKGROUND));
     TestBackground* pTestBackground = new TestBackground("TestBackground", pTexture);
     GameObjectManager::getInstance()->addObject(pTestBackground);
+
+
 }
 
 void TestScene::spawnMisc() {
@@ -163,4 +166,7 @@ void TestScene::createObjectPools() {
     // pRetrievedPool_L->requestPoolable();
 }
 
-
+void TestScene::loadScores() {
+    std::cout << "Player: " << ScoreManager::getInstance()->returnPlayerScore() << std::endl;
+    std::cout << "Enemy: " << ScoreManager::getInstance()->returnEnemyScore() << std::endl << std::endl;
+}

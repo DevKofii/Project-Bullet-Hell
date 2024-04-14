@@ -56,6 +56,11 @@ void TestBulletMovement_L::perform() {
                 if(pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(pEnemy->getSprite()->getGlobalBounds())) {
                     //std::cout << "Hits Enemy" << std::endl;
                     ObjectPoolManager::getInstance()->getPool(pPoolableOwnerL->getTag())->releasePoolable(pPoolableOwnerL);
+                    pEnemy->setPosition({690.f,210.f});
+                    ScoreManager::getInstance()->addPlayerScore();
+
+                    std::cout << "Player: " << ScoreManager::getInstance()->returnPlayerScore() << std::endl;
+                    std::cout << "Enemy: " << ScoreManager::getInstance()->returnEnemyScore() << std::endl << std::endl;
                 }
             }
             
@@ -64,6 +69,11 @@ void TestBulletMovement_L::perform() {
                 if(pPoolableOwnerL->getSprite()->getGlobalBounds().intersects(pPlayer->getSprite()->getGlobalBounds())) {
                     //std::cout << "Hits Player" << std::endl;
                     ObjectPoolManager::getInstance()->getPool(pPoolableOwnerL->getTag())->releasePoolable(pPoolableOwnerL);
+                    pPlayer->setPosition({90.f,210.f});
+                    ScoreManager::getInstance()->addEnemyScore();
+
+                    std::cout << "Player: " << ScoreManager::getInstance()->returnPlayerScore() << std::endl;
+                    std::cout << "Enemy: " << ScoreManager::getInstance()->returnEnemyScore() << std::endl << std::endl;
                 }
             }
         }

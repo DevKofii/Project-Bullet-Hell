@@ -65,6 +65,10 @@ void TestBulletMovement_R::perform() {
                     //std::cout << "Hits Enemy" << std::endl;
                     ObjectPoolManager::getInstance()->getPool(pPoolableOwner->getTag())->releasePoolable(pPoolableOwner);
                     pEnemy->setPosition({690.f,210.f});
+                    ScoreManager::getInstance()->addPlayerScore();
+
+                    std::cout << "Player: " << ScoreManager::getInstance()->returnPlayerScore() << std::endl;
+                    std::cout << "Enemy: " << ScoreManager::getInstance()->returnEnemyScore() << std::endl << std::endl;
                 }
             }
             
@@ -74,6 +78,10 @@ void TestBulletMovement_R::perform() {
                     //std::cout << "Hits Player" << std::endl;
                     ObjectPoolManager::getInstance()->getPool(pPoolableOwner->getTag())->releasePoolable(pPoolableOwner);
                     pPlayer->setPosition({90.f,210.f});
+                    ScoreManager::getInstance()->addEnemyScore();
+
+                    std::cout << "Player: " << ScoreManager::getInstance()->returnPlayerScore() << std::endl;
+                    std::cout << "Enemy: " << ScoreManager::getInstance()->returnEnemyScore() << std::endl << std::endl;
                 }
             }
         }
