@@ -53,10 +53,27 @@ void TextureManager::loadTest() {
     pTexture->setSmooth(1);
     this->mapTexture[AssetType::BULLET_COLLIDER].push_back(pTexture);
 
+    //Load Shadow
     pTexture = new sf::Texture();
     pTexture->loadFromFile("View/Image/char/anims/parts/Shadow.png");
     pTexture->setSmooth(1);
     this->mapTexture[AssetType::SHADOW].push_back(pTexture);
+
+    //Load Barrier
+    pTexture = new sf::Texture();
+    pTexture->loadFromFile("View/Image/parts/barrier/barrier.png");
+    pTexture->setSmooth(1);
+    this->mapTexture[AssetType::BARRIER].push_back(pTexture);
+
+    pTexture = new sf::Texture();
+    pTexture->loadFromFile("View/Image/parts/barrier/Left.png");
+    pTexture->setSmooth(1);
+    this->mapTexture[AssetType::EDGE_LEFT].push_back(pTexture);
+
+    pTexture = new sf::Texture();
+    pTexture->loadFromFile("View/Image/parts/barrier/Top.png");
+    pTexture->setSmooth(1);
+    this->mapTexture[AssetType::EDGE_TOP].push_back(pTexture);
 }
 
 void TextureManager::unloadAll() {

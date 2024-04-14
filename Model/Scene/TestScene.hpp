@@ -8,6 +8,8 @@
 #include "../Entity/TestBackground.hpp"
 #include "../Entity/Collider.hpp"
 #include "../Entity/Shadow.hpp"
+#include "../Entity/Barrier.hpp"
+#include "../Entity/Edges.hpp"
 #include "../../Controller/Manager/TextureManager.hpp"
 
 #include "../Pooling/Entity/TestBullet_R.hpp"
@@ -32,6 +34,7 @@ namespace scenes {
         private:
             void createBackground();
             void spawnMisc();
+            void createBarrier();
             void spawnUnit();
             void spawnBot();
             void createObjectPools();

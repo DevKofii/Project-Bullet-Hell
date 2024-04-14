@@ -5,6 +5,7 @@
 #include "../Input/TestUnitInput.hpp"
 #include "../../Entity/TestUnit.hpp"
 #include "../../Entity/TestEnemy.hpp"
+#include "../../Entity/Barrier.hpp"
 #include "../Component.hpp"
 #include "../../Enum/ComponentType.hpp"
 #include "../../GameObject.hpp"
@@ -22,5 +23,6 @@ namespace components {
 
         public:
             void perform();
+            void windowBounds();
     };
 }

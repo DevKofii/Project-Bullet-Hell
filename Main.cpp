@@ -23,6 +23,8 @@
 #include "Model/Entity/TestEnemy.cpp"
 #include "Model/Entity/Collider.cpp"
 #include "Model/Entity/Shadow.cpp"
+#include "Model/Entity/Barrier.cpp"
+#include "Model/Entity/Edges.cpp"
 
 #include "Model/Pooling/PoolableObject.cpp"
 #include "Model/Pooling/Entity/PlayerBullet.cpp"
@@ -52,6 +54,8 @@
 
 #include "Model/Component/Script/FrameAnimation.cpp"
 #include "Model/Component/Script/CollisionManager.cpp"
+
+#include "Model/Component/Script/BoundsAction.cpp"
 
 #include "Model/Component/Script/Bot/BotManager.cpp"
 #include "Model/Component/Script/Bot/FrameAnimationBot.cpp"
